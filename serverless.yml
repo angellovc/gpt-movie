@@ -1,0 +1,58 @@
+service: users-crud
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 'dynamodb:*'
+          Resource: arn:aws:dynamodb:us-east-1:556022524154:table/*
+
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
+	
+custom:
+  dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    # Uncomment only if you already have a DynamoDB running locally
+    # noStart: true
+
+functions:
+  get-users:
+    handler: handler.getUsers
+    events:
+      - http:
+          path: users
+          method: GET
+  get-user:
+    handler: handler.getUser
+    events:
+      - http:
+          path: users/{id}
+          method: GET
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

@@ -1,0 +1,17 @@
+{
+  "name": "serverless-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "^2.1381.0",
+    "serverless": "^3.31.0",
+    "serverless-dynamodb-local": "^0.2.24",
+    "serverless-offline": "^12.0.4"
+  }
+}
